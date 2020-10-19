@@ -77,7 +77,8 @@ app.post('/', (req: Request, res: Response) => {
 
 /************************** TEST API **************************/
 //#region TEST API
-const registrationToken = process.env.TEST_DEVICE_TOKEN;
+const registrationToken = process.env.TEST_DEVICE_TOKEN_ANDROID;
+// const registrationToken = process.env.TEST_DEVICE_TOKEN_IOS;
 
 const message: Message = {
   token: registrationToken,
