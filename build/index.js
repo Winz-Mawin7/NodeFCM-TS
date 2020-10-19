@@ -89,8 +89,8 @@ app.post('/', function (req, res) {
 //#endregion
 /************************** TEST API **************************/
 //#region TEST API
-// const registrationToken = process.env.TEST_DEVICE_TOKEN_ANDROID;
-var registrationToken = process.env.TEST_DEVICE_TOKEN_IOS;
+var registrationToken = process.env.TEST_DEVICE_TOKEN_ANDROID;
+// const registrationToken = process.env.TEST_DEVICE_TOKEN_IOS;
 var message = {
     token: registrationToken,
     data: {

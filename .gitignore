@@ -5,3 +5,4 @@ serviceAccountKey.json
 node_modules
 kong_datastore
 prometheus_data
+data
