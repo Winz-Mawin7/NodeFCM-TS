@@ -70,7 +70,7 @@ services:
   # Konga database prepare
   #######################################
   konga-prepare:
-    image: pantsel/konga:next
+    image: pantsel/konga
     command: '-c prepare -a postgres -u postgresql://kong:kong@kong-database:5432/konga_db'
     networks:
       - kong-net
