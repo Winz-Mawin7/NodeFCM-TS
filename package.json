@@ -1,5 +1,5 @@
 {
-  "name": "NodeFCM",
+  "name": "node-fcm",
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {

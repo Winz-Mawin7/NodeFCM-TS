@@ -6,8 +6,8 @@ COPY package.json yarn.lock ./
 
 RUN yarn install --production
 
-COPY . .
-
 EXPOSE 8088 8448
 
-CMD [ "yarn", "deploy" ]
+COPY . .
+
+CMD [ "node", "./build/index.js" ]

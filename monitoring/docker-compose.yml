@@ -113,7 +113,6 @@ services:
   #######################################
   node-fcm:
     image: winz7/node-fcm
-    env_file: .env
     restart: always
     networks:
       - kong-net
