@@ -33,11 +33,12 @@ const app = express();
 //#region MIDDLEWARE
 app.use(cors());
 app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 //#endregion
 
 /************************** REST API **************************/
 //#region REST API
-app.get('/', (_: Request, res: Response) => res.status(200).send('Server is running...'));
+app.get('/', (_: Request, res: Response) => res.status(200).send('Server is running 2...'));
 
 app.post('/', (req: Request, res: Response) => {
   if (!req.body.token) return res.status(422).send({ error: 'Bad Input (missing token)' });
@@ -114,6 +115,10 @@ app.get('/test', (_: Request, res: Response) => {
     .send(message)
     .then((response) => res.status(200).send({ status: 'Success', response }))
     .catch((error) => res.status(400).send(error));
+});
+
+app.post('/test2', (req, res) => {
+  res.send(JSON.stringify(req.body));
 });
 //#endregion
 

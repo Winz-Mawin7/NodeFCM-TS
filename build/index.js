@@ -49,10 +49,11 @@ var app = express_1.default();
 //#region MIDDLEWARE
 app.use(cors_1.default());
 app.use(body_parser_1.default.json());
+app.use(body_parser_1.default.urlencoded({ extended: true }));
 //#endregion
 /************************** REST API **************************/
 //#region REST API
-app.get('/', function (_, res) { return res.status(200).send('Server is running...'); });
+app.get('/', function (_, res) { return res.status(200).send('Server is running 2...'); });
 app.post('/', function (req, res) {
     if (!req.body.token)
         return res.status(422).send({ error: 'Bad Input (missing token)' });
@@ -124,6 +125,9 @@ app.get('/test', function (_, res) {
         .send(message)
         .then(function (response) { return res.status(200).send({ status: 'Success', response: response }); })
         .catch(function (error) { return res.status(400).send(error); });
+});
+app.post('/test2', function (req, res) {
+    res.send(JSON.stringify(req.body));
 });
 //#endregion
 /************************** SERVER LISTENING **************************/

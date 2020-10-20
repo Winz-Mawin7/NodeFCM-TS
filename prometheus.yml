@@ -1,7 +1,7 @@
 # my global config
 global:
-  scrape_interval: 15s # Set the scrape interval to every 15 seconds. Default is every 1 minute.
-  evaluation_interval: 15s # Evaluate rules every 15 seconds. The default is every 1 minute.
+  scrape_interval: 5s # Set the scrape interval to every 15 seconds. Default is every 1 minute.
+  evaluation_interval: 5s # Evaluate rules every 15 seconds. The default is every 1 minute.
 
 scrape_configs:
   - job_name: 'prometheus'
@@ -10,7 +10,7 @@ scrape_configs:
       - targets:
           - prometheus:9090
 
-  - job_name: 'pg_exporter'
+  - job_name: 'node_exporter'
     scrape_interval: 5s
     static_configs:
       - targets:
