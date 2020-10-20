@@ -38,7 +38,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 /************************** REST API **************************/
 //#region REST API
-app.get('/', (_: Request, res: Response) => res.status(200).send('Server is running 2...'));
+app.get('/', (_: Request, res: Response) => res.status(200).send('Server is running...'));
 
 app.post('/', (req: Request, res: Response) => {
   if (!req.body.token) return res.status(422).send({ error: 'Bad Input (missing token)' });

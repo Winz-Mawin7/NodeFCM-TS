@@ -1,4 +1,5 @@
+Run `yarn build` before docker
+
+docker build --tag node-fcm .
+
 docker stack deploy --compose-file docker-compose.yml stack-fcm
-
-Grafana Id: 1860
-

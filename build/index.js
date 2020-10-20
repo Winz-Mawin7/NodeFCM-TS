@@ -53,7 +53,7 @@ app.use(body_parser_1.default.urlencoded({ extended: true }));
 //#endregion
 /************************** REST API **************************/
 //#region REST API
-app.get('/', function (_, res) { return res.status(200).send('Server is running 2...'); });
+app.get('/', function (_, res) { return res.status(200).send('Server is running...'); });
 app.post('/', function (req, res) {
     if (!req.body.token)
         return res.status(422).send({ error: 'Bad Input (missing token)' });
