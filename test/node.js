@@ -2,7 +2,8 @@ import { check } from 'k6';
 import http from 'k6/http';
 
 export default function () {
-  var url = 'https://localhost:8448/test2';
+  // var url = 'https://localhost:8443/test2';
+  var url = 'http://localhost:8000/test2';
   var formdata = {
     school_id: '202',
   };
