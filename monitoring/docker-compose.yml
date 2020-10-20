@@ -16,7 +16,6 @@ services:
     restart: always
     networks:
       - kong-net
-    env_file: ./.env
     environment:
       POSTGRES_USER: kong
       POSTGRES_DB: kong
