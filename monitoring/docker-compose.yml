@@ -161,14 +161,13 @@ services:
   node-fcm:
     image: winz7/node-fcm
     restart: always
+    deploy:
+      replicas: 2
     networks:
       - kong-net
     ports:
       - '8088:8088'
       - '8448:8448'
-    depends_on:
-      - kong
-      - kong-database
 
 #######################################
 # Global Configure
@@ -176,4 +175,4 @@ services:
 networks:
   kong-net:
     name: kong-net
-    driver: bridge
+    driver: overlay
