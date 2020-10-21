@@ -131,17 +131,6 @@ services:
       - 9090:9090
 
   #######################################
-  # Node Exporter
-  #######################################
-  node_exporter:
-    image: prom/node-exporter:latest
-    restart: always
-    networks:
-      - kong-net
-    ports:
-      - 9100:9100
-
-  #######################################
   # Grafana Dashboard
   #######################################
   grafana:
@@ -154,6 +143,17 @@ services:
       - kong-net
     ports:
       - 3000:3000
+
+  #######################################
+  # Node Exporter
+  #######################################
+  node_exporter:
+    image: prom/node-exporter:latest
+    restart: always
+    networks:
+      - kong-net
+    ports:
+      - 9100:9100
 
   #######################################
   # Node FCM Serices

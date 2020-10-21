@@ -7,6 +7,7 @@ import https from 'https';
 import cors from 'cors';
 import dotenv from 'dotenv';
 import * as admin from 'firebase-admin';
+import promBundle from 'express-prom-bundle';
 
 dotenv.config();
 
@@ -26,14 +27,17 @@ const FIREBASE_CERT = require('../serviceAccountKey.json');
 admin.initializeApp({ credential: admin.credential.cert(FIREBASE_CERT) });
 
 const messaging = admin.messaging();
+const metricsMiddleware = promBundle({ metricType: 'histogram', includePath: true, includeUp: false });
+
 const app = express();
 //#endregion
 
 /************************** MIDDLEWARE **************************/
 //#region MIDDLEWARE
+app.use(metricsMiddleware);
 app.use(cors());
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.urlencoded({ extended: false }));
 //#endregion
 
 /************************** REST API **************************/

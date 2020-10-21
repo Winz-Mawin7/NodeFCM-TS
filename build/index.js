@@ -31,6 +31,7 @@ var https_1 = __importDefault(require("https"));
 var cors_1 = __importDefault(require("cors"));
 var dotenv_1 = __importDefault(require("dotenv"));
 var admin = __importStar(require("firebase-admin"));
+var express_prom_bundle_1 = __importDefault(require("express-prom-bundle"));
 dotenv_1.default.config();
 // src : https://firebase.google.com/docs/reference/fcm/rest/v1/projects.messages
 // apns : https://developer.apple.com/documentation/usernotifications/setting_up_a_remote_notification_server/generating_a_remote_notification
@@ -43,13 +44,15 @@ var SERVER_CERT = fs_1.default.readFileSync(path_1.default.join(__dirname, '../c
 var FIREBASE_CERT = require('../serviceAccountKey.json');
 admin.initializeApp({ credential: admin.credential.cert(FIREBASE_CERT) });
 var messaging = admin.messaging();
+var metricsMiddleware = express_prom_bundle_1.default({ metricType: 'histogram', includePath: true, includeUp: false });
 var app = express_1.default();
 //#endregion
 /************************** MIDDLEWARE **************************/
 //#region MIDDLEWARE
+app.use(metricsMiddleware);
 app.use(cors_1.default());
 app.use(body_parser_1.default.json());
-app.use(body_parser_1.default.urlencoded({ extended: true }));
+app.use(body_parser_1.default.urlencoded({ extended: false }));
 //#endregion
 /************************** REST API **************************/
 //#region REST API
