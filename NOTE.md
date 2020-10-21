@@ -6,7 +6,7 @@ Run `docker build --tag winz7/node-fcm .` before stack deploy
 
 `docker service create --replicas 2 --name node-fcm-stack -p 8088:8088 winz7/node-fcm`
 
-`docker stack deploy -c docker-compose.yml stack-fcm-monitoring`
+`docker stack deploy -c stack-fcm-monitoring stack-fcm-monitoring`
 
 Caution !! `docker system prune -a`
 

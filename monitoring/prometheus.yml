@@ -24,7 +24,6 @@ scrape_configs:
 
   - job_name: 'node-express'
     scrape_interval: 5s
-    scheme: https
     static_configs:
       - targets:
           - 'node-fcm:8088'
