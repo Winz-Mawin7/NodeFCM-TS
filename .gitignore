@@ -1,9 +1,0 @@
-.env
-cert.pem
-key.pem
-serviceAccountKey.json
-node_modules
-**/data
-**/kong_datastore
-**/prometheus_data
-**/portainer_data
