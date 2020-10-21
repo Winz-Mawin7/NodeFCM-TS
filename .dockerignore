@@ -1,0 +1,10 @@
+Dockerfile
+.git
+.gitignore
+NOTE.md
+node_modules
+test/
+src/
+monitoring/
+tsconfig.json
+
