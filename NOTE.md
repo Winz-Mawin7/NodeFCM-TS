@@ -17,3 +17,13 @@ Caution !! `docker system prune -a`
 `docker stack services stack-fcm-monitoring`
 
 `docker stack rm stack-fcm-monitoring`
+
+PrompQL
+
+```
+sum by (path) (http_request_duration_seconds_count{status_code=~"200|304"})
+
+sum by (path) (round(rate(http_request_duration_seconds_count{status_code=~"200|304"}[5m])*60))
+
+sum by (path) (round(rate(http_request_duration_seconds_count{status_code=~"200|304"}[1m])*60))
+```

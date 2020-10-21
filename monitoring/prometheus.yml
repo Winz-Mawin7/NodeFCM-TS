@@ -11,7 +11,7 @@ scrape_configs:
           - prometheus:9090
 
   - job_name: 'node_exporter'
-    scrape_interval: 15s
+    scrape_interval: 5s
     static_configs:
       - targets:
           - node_exporter:9100
@@ -23,7 +23,8 @@ scrape_configs:
           - 'kong:8001'
 
   - job_name: 'node-express'
-    scrape_interval: 15s
+    scrape_interval: 5s
+    scheme: https
     static_configs:
       - targets:
           - 'node-fcm:8088'

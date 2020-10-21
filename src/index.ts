@@ -34,8 +34,8 @@ const app = express();
 
 /************************** MIDDLEWARE **************************/
 //#region MIDDLEWARE
-app.use(metricsMiddleware);
 app.use(cors());
+app.use(metricsMiddleware);
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 //#endregion

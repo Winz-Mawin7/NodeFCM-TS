@@ -49,8 +49,8 @@ var app = express_1.default();
 //#endregion
 /************************** MIDDLEWARE **************************/
 //#region MIDDLEWARE
-app.use(metricsMiddleware);
 app.use(cors_1.default());
+app.use(metricsMiddleware);
 app.use(body_parser_1.default.json());
 app.use(body_parser_1.default.urlencoded({ extended: false }));
 //#endregion
