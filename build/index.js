@@ -23,11 +23,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var express_1 = __importDefault(require("express"));
-var fs_1 = __importDefault(require("fs"));
-var path_1 = __importDefault(require("path"));
 var body_parser_1 = __importDefault(require("body-parser"));
-var http_1 = __importDefault(require("http"));
-var https_1 = __importDefault(require("https"));
 var cors_1 = __importDefault(require("cors"));
 var dotenv_1 = __importDefault(require("dotenv"));
 var admin = __importStar(require("firebase-admin"));
@@ -36,26 +32,18 @@ dotenv_1.default.config();
 // src : https://firebase.google.com/docs/reference/fcm/rest/v1/projects.messages
 // apns : https://developer.apple.com/documentation/usernotifications/setting_up_a_remote_notification_server/generating_a_remote_notification
 /************************** CONFIG & CONSTANTS **************************/
-//#region CONFIG & CONSTANTS
-var HTTPS_PORT = process.env.HTTPS_PORT || 443;
-var HTTP_PORT = process.env.HTTP_PORT || 80;
-var SERVER_KEY = fs_1.default.readFileSync(path_1.default.join(__dirname, '../key.pem'));
-var SERVER_CERT = fs_1.default.readFileSync(path_1.default.join(__dirname, '../cert.pem'));
+var PORT = process.env.PORT || 443;
 var FIREBASE_CERT = require('../serviceAccountKey.json');
 admin.initializeApp({ credential: admin.credential.cert(FIREBASE_CERT) });
 var messaging = admin.messaging();
 var metricsMiddleware = express_prom_bundle_1.default({ metricType: 'histogram', includePath: true, includeUp: false });
 var app = express_1.default();
-//#endregion
 /************************** MIDDLEWARE **************************/
-//#region MIDDLEWARE
 app.use(cors_1.default());
 app.use(metricsMiddleware);
 app.use(body_parser_1.default.json());
 app.use(body_parser_1.default.urlencoded({ extended: false }));
-//#endregion
 /************************** REST API **************************/
-//#region REST API
 app.get('/', function (_, res) { return res.status(200).send('Server is running...'); });
 app.post('/', function (req, res) {
     if (!req.body.token)
@@ -90,9 +78,7 @@ app.post('/', function (req, res) {
         .then(function (response) { return res.status(200).send({ status: 'Success', response: response }); })
         .catch(function (error) { return res.status(400).send(error); });
 });
-//#endregion
 /************************** TEST API **************************/
-//#region TEST API
 var registrationToken = process.env.TEST_DEVICE_TOKEN_ANDROID;
 // const registrationToken = process.env.TEST_DEVICE_TOKEN_IOS;
 var message = {
@@ -132,11 +118,5 @@ app.get('/test', function (_, res) {
 app.post('/test2', function (req, res) {
     res.send(JSON.stringify(req.body));
 });
-//#endregion
 /************************** SERVER LISTENING **************************/
-//#region SERVER LISTENING
-var httpServer = http_1.default.createServer(app);
-var httpsServer = https_1.default.createServer({ key: SERVER_KEY, cert: SERVER_CERT }, app);
-httpServer.listen(HTTP_PORT, function () { return console.log("HTTP Server is listening on port: " + HTTP_PORT); });
-httpsServer.listen(HTTPS_PORT, function () { return console.log("HTTPS Server is listening on port: " + HTTPS_PORT); });
-//#endregion
+app.listen(PORT, function () { return console.log("Server is running on PORT " + PORT); });

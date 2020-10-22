@@ -2,7 +2,7 @@ Run `yarn build` before docker
 
 Run `docker build --tag winz7/node-fcm .` before stack deploy
 
-`docker stack deploy --compose-file docker-compose.yml stack-fcm`
+`docker stack deploy --compose-file stack-fcm-monitoring.yml stack-fcm`
 
 `docker service create --replicas 2 --name node-fcm-stack -p 8088:8088 winz7/node-fcm`
 
