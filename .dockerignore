@@ -1,6 +1,7 @@
 Dockerfile
 .git
 .gitignore
-NOTE.md
+README.md
 node_modules
+
 
