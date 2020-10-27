@@ -48,11 +48,12 @@ app.get('/', function (_, res) { return res.status(200).send('Server is running.
 app.post('/', function (req, res) {
     if (!req.body.token)
         return res.status(422).send({ error: 'Bad Input (missing token)' });
+    console.log(req.body);
     var message = {
         token: req.body.token,
-        data: req.body.data || { name: 'pangpond', show_in_foreground: true },
+        data: req.body.data || { name: 'pangpond', show_in_foreground: 'true' },
         notification: {
-            title: req.body.title || 'à¹à¸ˆà¹‰à¸‡à¸‚à¹ˆà¸²à¸§à¸ªà¸²à¸£à¸ˆà¸²à¸ Nextschool',
+            title: req.body.title || 'ข้อมูลข่าวสารจาก Nextschool',
             body: req.body.msg,
         },
         android: {
