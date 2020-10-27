@@ -33,12 +33,14 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.get('/', (_: Request, res: Response) => res.status(200).send('Server is running...'));
 
 app.post('/', (req: Request, res: Response) => {
-  if (!req.body.token) return res.status(422).send({ error: 'Bad Input (missing token)' });
+  let data = "{ name: 'pangpond', show_in_foreground: 'true' }";
 
-  console.log(req.body);
-  const message: Message = {
+  if (!req.body.token) return res.status(422).send({ error: 'Bad Input (missing token)' });
+  if (req.body.data) data = JSON.stringify(req.body.data);
+
+  const message: any = {
     token: req.body.token,
-    data: req.body.data || { name: 'pangpond', show_in_foreground: 'true' },
+    data: { data },
     notification: {
       title: req.body.title || 'ข้อมูลข่าวสารจาก Nextschool',
       body: req.body.msg,

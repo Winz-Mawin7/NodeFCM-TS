@@ -4,5 +4,7 @@ Dockerfile
 README.md
 node_modules/
 test/
+serviceAccountKey.notif.json
+tsconfig.json
 
 

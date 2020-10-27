@@ -1,5 +1,5 @@
 .env
 cert.pem
 key.pem
-serviceAccountKey.json
+serviceAccountKey*
 node_modules

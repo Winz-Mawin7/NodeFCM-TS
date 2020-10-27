@@ -46,12 +46,14 @@ app.use(body_parser_1.default.urlencoded({ extended: false }));
 /************************** REST API **************************/
 app.get('/', function (_, res) { return res.status(200).send('Server is running...'); });
 app.post('/', function (req, res) {
+    var data = "{ name: 'pangpond', show_in_foreground: 'true' }";
     if (!req.body.token)
         return res.status(422).send({ error: 'Bad Input (missing token)' });
-    console.log(req.body);
+    if (req.body.data)
+        data = JSON.stringify(req.body.data);
     var message = {
         token: req.body.token,
-        data: req.body.data || { name: 'pangpond', show_in_foreground: 'true' },
+        data: { data: data },
         notification: {
             title: req.body.title || 'ข้อมูลข่าวสารจาก Nextschool',
             body: req.body.msg,
