@@ -13,7 +13,7 @@ type Message = admin.messaging.Message;
 // apns : https://developer.apple.com/documentation/usernotifications/setting_up_a_remote_notification_server/generating_a_remote_notification
 
 /************************** CONFIG & CONSTANTS **************************/
-const PORT = process.env.PORT || 443;
+const PORT = process.env.PORT || 80;
 const FIREBASE_CERT = require('../serviceAccountKey.notif.json');
 
 admin.initializeApp({ credential: admin.credential.cert(FIREBASE_CERT) });
