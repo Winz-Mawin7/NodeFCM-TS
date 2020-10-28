@@ -19,15 +19,12 @@ const FIREBASE_CERT = require('../serviceAccountKey.json');
 admin.initializeApp({ credential: admin.credential.cert(FIREBASE_CERT) });
 
 const messaging = admin.messaging();
-const metricsMiddleware = promBundle({ metricType: 'histogram', includePath: true, includeUp: false });
-
 const app = express();
 
 /************************** MIDDLEWARE **************************/
 app.use(cors());
-app.use(metricsMiddleware);
+app.use(promBundle({ metricType: 'histogram', includePath: true, includeUp: false }));
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
 
 /************************** REST API **************************/
 app.get('/', (_: Request, res: Response) => res.status(200).send('Server is running...'));
@@ -38,7 +35,7 @@ app.post('/', (req: Request, res: Response) => {
   if (!req.body.token) return res.status(422).send({ error: 'Bad Input (missing token)' });
   if (req.body.data) data = JSON.stringify(req.body.data);
 
-  const message: any = {
+  const message: Message = {
     token: req.body.token,
     data: { data },
     notification: {
@@ -66,51 +63,11 @@ app.post('/', (req: Request, res: Response) => {
 
   messaging
     .send(message)
-    .then((response) => res.status(200).send({ status: 'Success', response }))
+    .then((response) => res.status(200).send({ status: 'Success', message }))
     .catch((error) => res.status(400).send(error));
 });
 
-/************************** TEST API **************************/
-const registrationToken = process.env.TEST_DEVICE_TOKEN_ANDROID;
-// const registrationToken = process.env.TEST_DEVICE_TOKEN_IOS;
-
-const message: Message = {
-  token: registrationToken,
-  data: {
-    Nick: 'Mario',
-    Room: 'PortugalVSDenmark',
-  },
-  notification: {
-    title: 'Test Text Title',
-    body: 'Test Text Body',
-  },
-  android: {
-    priority: 'high',
-    notification: {
-      notificationCount: 0,
-      sound: 'default',
-    },
-  },
-  apns: {
-    payload: {
-      aps: {
-        badge: 0,
-        sound: 'default',
-        contentAvailable: true,
-      },
-    },
-  },
-  condition: null,
-};
-
-app.get('/test', (_: Request, res: Response) => {
-  messaging
-    .send(message)
-    .then((response) => res.status(200).send({ status: 'Success', response }))
-    .catch((error) => res.status(400).send(error));
-});
-
-app.post('/test2', (req, res) => {
+app.post('/test', (req, res) => {
   res.send(JSON.stringify(req.body));
 });
 
