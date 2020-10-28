@@ -1,5 +1,5 @@
 import express, { Request, Response } from 'express';
-import bodyParser, { urlencoded } from 'body-parser';
+import bodyParser from 'body-parser';
 import cors from 'cors';
 import dotenv from 'dotenv';
 import * as admin from 'firebase-admin';
