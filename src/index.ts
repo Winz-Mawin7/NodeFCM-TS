@@ -30,7 +30,7 @@ app.use(bodyParser.json());
 app.get('/', (_: Request, res: Response) => res.status(200).send('Server is running...'));
 
 app.post('/', (req: Request, res: Response) => {
-  let data = "{ name: 'pangpond', show_in_foreground: 'true' }";
+  let data = "{ name: 'pangpond', show_in_foreground: true }"; // default data
 
   if (!req.body.token) return res.status(422).send({ error: 'Bad Input (missing token)' });
   if (req.body.data) data = JSON.stringify(req.body.data);
@@ -67,8 +67,8 @@ app.post('/', (req: Request, res: Response) => {
     .catch((error) => res.status(400).send(error));
 });
 
-app.post('/test', (req, res) => {
-  res.send(JSON.stringify(req.body));
+app.post('/performance', (req, res) => {
+  res.send(req.body);
 });
 
 /************************** SERVER LISTENING **************************/

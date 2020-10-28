@@ -42,7 +42,7 @@ export default function () {
     const token = body.token;
 
     check(token, {
-      'is stats total is ok': (token) => typeof token !== 'undefined',
+      'Is Token not undefined': (token) => typeof token !== 'undefined',
     });
   }
 }
