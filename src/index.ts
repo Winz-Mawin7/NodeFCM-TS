@@ -14,7 +14,7 @@ type Message = admin.messaging.Message;
 
 /************************** CONFIG & CONSTANTS **************************/
 const PORT = process.env.PORT || 443;
-const FIREBASE_CERT = require('../serviceAccountKey.json');
+const FIREBASE_CERT = require('../serviceAccountKey.notif.json');
 
 admin.initializeApp({ credential: admin.credential.cert(FIREBASE_CERT) });
 
@@ -27,13 +27,12 @@ const app = express();
 app.use(cors());
 app.use(metricsMiddleware);
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
 
 /************************** REST API **************************/
 app.get('/', (_: Request, res: Response) => res.status(200).send('Server is running...'));
 
 app.post('/', (req: Request, res: Response) => {
-  let data = "{ name: 'pangpond', show_in_foreground: 'true' }";
+  let data = "{ name: 'pangpond', show_in_foreground: true }"; // default data
 
   if (!req.body.token) return res.status(422).send({ error: 'Bad Input (missing token)' });
   if (req.body.data) data = JSON.stringify(req.body.data);
@@ -66,7 +65,7 @@ app.post('/', (req: Request, res: Response) => {
 
   messaging
     .send(message)
-    .then((response) => res.status(200).send({ status: 'Success', response }))
+    .then((response) => res.status(200).send({ status: 'Success', response, data: message }))
     .catch((error) => res.status(400).send(error));
 });
 
@@ -103,15 +102,15 @@ const message: Message = {
   condition: null,
 };
 
-app.get('/test', (_: Request, res: Response) => {
+app.get('/fcm-test', (_: Request, res: Response) => {
   messaging
     .send(message)
     .then((response) => res.status(200).send({ status: 'Success', response }))
     .catch((error) => res.status(400).send(error));
 });
 
-app.post('/test2', (req, res) => {
-  res.send(JSON.stringify(req.body));
+app.post('/performance', (req, res) => {
+  res.send(req.body);
 });
 
 /************************** SERVER LISTENING **************************/
