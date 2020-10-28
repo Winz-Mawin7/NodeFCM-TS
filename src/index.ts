@@ -13,7 +13,7 @@ type Message = admin.messaging.Message;
 // apns : https://developer.apple.com/documentation/usernotifications/setting_up_a_remote_notification_server/generating_a_remote_notification
 
 /************************** CONFIG & CONSTANTS **************************/
-const PORT = process.env.PORT || 443;
+const PORT = process.env.PORT || 80;
 const FIREBASE_CERT = require('../serviceAccountKey.json');
 
 admin.initializeApp({ credential: admin.credential.cert(FIREBASE_CERT) });
@@ -63,7 +63,7 @@ app.post('/', (req: Request, res: Response) => {
 
   messaging
     .send(message)
-    .then((response) => res.status(200).send({ status: 'Success', message }))
+    .then((response) => res.status(200).send({ status: 'Success', response, data: message }))
     .catch((error) => res.status(400).send(error));
 });
 
