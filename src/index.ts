@@ -37,7 +37,7 @@ app.post('/', (req: Request, res: Response) => {
   if (!req.body.token) return res.status(422).send({ error: 'Bad Input (missing token)' });
   if (req.body.data) data = JSON.stringify(req.body.data);
 
-  const message: any = {
+  const message: Message = {
     token: req.body.token,
     data: { data },
     notification: {
@@ -105,7 +105,7 @@ const message: Message = {
 app.get('/fcm-test', (_: Request, res: Response) => {
   messaging
     .send(message)
-    .then((response) => res.status(200).send({ status: 'Success', response }))
+    .then((response) => res.status(200).send({ status: 'Success', response, data: message }))
     .catch((error) => res.status(400).send(error));
 });
 
