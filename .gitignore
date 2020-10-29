@@ -3,3 +3,4 @@ cert.pem
 key.pem
 serviceAccountKey*
 node_modules
+build
