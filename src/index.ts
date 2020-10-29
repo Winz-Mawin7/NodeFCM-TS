@@ -29,7 +29,7 @@ app.use(bodyParser.json());
 /************************** REST API **************************/
 app.get('/', (_: Request, res: Response) => res.status(200).send('Server is running...'));
 
-app.post('/', (req: Request, res: Response) => {
+app.post('/send', (req: Request, res: Response) => {
   let data = "{ name: 'pangpond', show_in_foreground: true }"; // default data
 
   if (!req.body.token) return res.status(422).send({ error: 'Bad Input (missing token)' });

@@ -32,21 +32,19 @@ dotenv_1.default.config();
 // src : https://firebase.google.com/docs/reference/fcm/rest/v1/projects.messages
 // apns : https://developer.apple.com/documentation/usernotifications/setting_up_a_remote_notification_server/generating_a_remote_notification
 /************************** CONFIG & CONSTANTS **************************/
-var PORT = process.env.PORT || 443;
+var PORT = process.env.PORT || 80;
 var FIREBASE_CERT = require('../serviceAccountKey.json');
 admin.initializeApp({ credential: admin.credential.cert(FIREBASE_CERT) });
 var messaging = admin.messaging();
-var metricsMiddleware = express_prom_bundle_1.default({ metricType: 'histogram', includePath: true, includeUp: false });
 var app = express_1.default();
 /************************** MIDDLEWARE **************************/
 app.use(cors_1.default());
-app.use(metricsMiddleware);
+app.use(express_prom_bundle_1.default({ metricType: 'histogram', includePath: true, includeUp: false }));
 app.use(body_parser_1.default.json());
-app.use(body_parser_1.default.urlencoded({ extended: false }));
 /************************** REST API **************************/
 app.get('/', function (_, res) { return res.status(200).send('Server is running...'); });
-app.post('/', function (req, res) {
-    var data = "{ name: 'pangpond', show_in_foreground: 'true' }";
+app.post('/send', function (req, res) {
+    var data = "{ name: 'pangpond', show_in_foreground: true }"; // default data
     if (!req.body.token)
         return res.status(422).send({ error: 'Bad Input (missing token)' });
     if (req.body.data)
@@ -78,48 +76,11 @@ app.post('/', function (req, res) {
     };
     messaging
         .send(message)
-        .then(function (response) { return res.status(200).send({ status: 'Success', response: response }); })
+        .then(function (response) { return res.status(200).send({ status: 'Success', response: response, data: message }); })
         .catch(function (error) { return res.status(400).send(error); });
 });
-/************************** TEST API **************************/
-var registrationToken = process.env.TEST_DEVICE_TOKEN_ANDROID;
-// const registrationToken = process.env.TEST_DEVICE_TOKEN_IOS;
-var message = {
-    token: registrationToken,
-    data: {
-        Nick: 'Mario',
-        Room: 'PortugalVSDenmark',
-    },
-    notification: {
-        title: 'Test Text Title',
-        body: 'Test Text Body',
-    },
-    android: {
-        priority: 'high',
-        notification: {
-            notificationCount: 0,
-            sound: 'default',
-        },
-    },
-    apns: {
-        payload: {
-            aps: {
-                badge: 0,
-                sound: 'default',
-                contentAvailable: true,
-            },
-        },
-    },
-    condition: null,
-};
-app.get('/test', function (_, res) {
-    messaging
-        .send(message)
-        .then(function (response) { return res.status(200).send({ status: 'Success', response: response }); })
-        .catch(function (error) { return res.status(400).send(error); });
-});
-app.post('/test2', function (req, res) {
-    res.send(JSON.stringify(req.body));
+app.post('/performance', function (req, res) {
+    res.send(req.body);
 });
 /************************** SERVER LISTENING **************************/
 app.listen(PORT, function () { return console.log("Server is running on PORT " + PORT); });

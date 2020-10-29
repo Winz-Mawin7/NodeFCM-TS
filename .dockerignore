@@ -6,5 +6,7 @@ node_modules/
 test/
 serviceAccountKey.notif.json
 tsconfig.json
+*.pem
+src/
 
 
