@@ -2,8 +2,8 @@ import { check } from 'k6';
 import http from 'k6/http';
 
 export default function () {
-  // const url = 'http://localhost:8088/performance';
   const url = 'http://push.nextschool.io:8088/performance';
+  // const url = 'http://push.nextschool.io:8000/performance'; // Kong gateway
 
   const payload = JSON.stringify({
     token:
