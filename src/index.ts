@@ -4,6 +4,8 @@ import cors from 'cors';
 import dotenv from 'dotenv';
 import * as admin from 'firebase-admin';
 import promBundle from 'express-prom-bundle';
+import { readFileSync } from 'fs';
+import { today, writeLog } from './writeLog';
 
 dotenv.config();
 
@@ -22,6 +24,8 @@ const messaging = admin.messaging();
 const app = express();
 
 /************************** MIDDLEWARE **************************/
+app.set('view engine', 'ejs');
+
 app.use(cors());
 app.use(promBundle({ metricType: 'histogram', includePath: true, includeUp: false }));
 app.use(bodyParser.json());
@@ -29,8 +33,12 @@ app.use(bodyParser.json());
 /************************** REST API **************************/
 app.get('/', (_: Request, res: Response) => res.status(200).send('Server is running...'));
 
+// send fcm messaging to device by specify token.
 app.post('/send', (req: Request, res: Response) => {
   let data = "{ name: 'pangpond', show_in_foreground: true }"; // default data
+
+  // Write Log file
+  writeLog(req.body.msg);
 
   if (!req.body.token) return res.status(422).send({ error: 'Bad Input (missing token)' });
   if (req.body.data) data = JSON.stringify(req.body.data);
@@ -67,8 +75,28 @@ app.post('/send', (req: Request, res: Response) => {
     .catch((error) => res.status(400).send(error));
 });
 
+// test performance by receive message then return.
 app.post('/performance', (req, res) => {
   res.send(req.body);
+});
+
+// GUI for view on week-day log by ejs web engine
+app.get('/log', (req: Request, res: Response) => {
+  const date = req.query.date || today;
+  const search = req.query.search || null;
+
+  const file = `${__dirname}/../log/${date}.log`;
+
+  // Read log file then split to line by line and filter remove empty string
+  let logs = readFileSync(file, 'utf8')
+    .toString()
+    .split('\n')
+    .filter((e) => e);
+
+  // search by query string search
+  if (search) logs = logs.filter((item) => item.includes(search.toString()));
+
+  res.render('index', { logs, date, search });
 });
 
 /************************** SERVER LISTENING **************************/
