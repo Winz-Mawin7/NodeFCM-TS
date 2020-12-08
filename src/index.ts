@@ -37,11 +37,12 @@ app.get('/', (_: Request, res: Response) => res.status(200).send('Server is runn
 app.post('/send', (req: Request, res: Response) => {
   let data = "{ name: 'pangpond', show_in_foreground: true }"; // default data
 
-  // Write Log file
-  writeLog(req.body.msg);
-
   if (!req.body.token) return res.status(422).send({ error: 'Bad Input (missing token)' });
   if (req.body.data) data = JSON.stringify(req.body.data);
+
+  console.log(JSON.stringify(req.body, null, 2));
+  // Write Log file
+  writeLog(req.body.msg);
 
   const message: Message = {
     token: req.body.token,
