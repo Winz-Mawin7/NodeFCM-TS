@@ -1,5 +1,5 @@
 import fs from 'fs';
-import { format } from 'date-fns';
+import { differenceInDays, format } from 'date-fns';
 
 export const today = new Date().toString().split(' ')[0];
 const file = `${__dirname}/../log/${today}.log`;
@@ -13,10 +13,9 @@ function isWeekAgo(): boolean {
 
   try {
     const stats = fs.statSync(file);
-    const lastModified = stats.mtime.getDate();
-    const date = new Date().getDate();
-
-    date - lastModified >= 7 ? (flag = true) : (flag = false);
+    const lastModified = stats.mtime;
+    const date = new Date();
+    differenceInDays(date, lastModified) >= 7 ? (flag = true) : (flag = false);
     return flag;
   } catch (error) {
     console.log(`Created file...`);

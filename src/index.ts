@@ -41,7 +41,6 @@ app.post('/send', (req: Request, res: Response) => {
   if (req.body.data) data = JSON.stringify(req.body.data);
 
   console.log(JSON.stringify(req.body, null, 2));
-  // Write Log file
   writeLog(req.body.msg);
 
   const message: Message = {
@@ -92,7 +91,8 @@ app.get('/log', (req: Request, res: Response) => {
   let logs = readFileSync(file, 'utf8')
     .toString()
     .split('\n')
-    .filter((e) => e);
+    .filter((e) => e)
+    .reverse();
 
   // search by query string search
   if (search) logs = logs.filter((item) => item.includes(search.toString()));
