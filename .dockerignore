@@ -8,5 +8,6 @@ serviceAccountKey.notif.json
 tsconfig.json
 *.pem
 src/
+docker-compose.yml
 
 

@@ -1,0 +1,13 @@
+version: '3.8'
+
+services:
+  #######################################
+  # Node FCM Service
+  #######################################
+  node-fcm:
+    image: winz7/node-fcm
+    restart: always
+    environment:
+      - TZ=Asia/Bangkok
+    ports:
+      - '8088:8088'
