@@ -5,7 +5,7 @@ import dotenv from 'dotenv';
 import * as admin from 'firebase-admin';
 import promBundle from 'express-prom-bundle';
 import * as fs from 'fs';
-import { today, writeLog } from './writeLog';
+import { writeLog } from './writeLog';
 
 dotenv.config();
 
@@ -82,7 +82,7 @@ app.post('/performance', (req, res) => {
 
 // GUI for view on week-day log by ejs web engine
 app.get('/log', (req: Request, res: Response) => {
-  const date = req.query.date || today;
+  const date = req.query.date || new Date().toString().split(' ')[0];
   const search = req.query.search || null;
 
   const file = `${__dirname}/../log/${date}.log`;
