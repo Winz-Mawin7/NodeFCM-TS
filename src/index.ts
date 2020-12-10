@@ -4,7 +4,7 @@ import cors from 'cors';
 import dotenv from 'dotenv';
 import * as admin from 'firebase-admin';
 import promBundle from 'express-prom-bundle';
-import { readFileSync } from 'fs';
+import * as fs from 'fs';
 import { today, writeLog } from './writeLog';
 
 dotenv.config();
@@ -86,14 +86,17 @@ app.get('/log', (req: Request, res: Response) => {
   const search = req.query.search || null;
 
   const file = `${__dirname}/../log/${date}.log`;
+  let logs;
 
-  // Read log file then split to line by line and filter remove empty string
-  let logs = readFileSync(file, 'utf8')
+  if (!fs.existsSync(file)) fs.writeFileSync(file, '');
+
+  // Read log file then split to line by line and filter remove empty string and newest-on-top
+  logs = fs
+    .readFileSync(file, 'utf8')
     .toString()
     .split('\n')
     .filter((e) => e)
     .reverse();
-
   // search by query string search
   if (search) logs = logs.filter((item) => item.includes(search.toString()));
 

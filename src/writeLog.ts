@@ -27,11 +27,12 @@ export const writeLog = (text: string) => {
 
   if (isWeekAgo()) {
     fs.writeFile(file, msg, (err) => {
+      console.log(`Today is ${today}, Write File on ${file}`);
       if (err) throw err;
-      else console.log(`Today is ${today}, Write File on ${file}`);
     });
   } else {
     fs.appendFile(file, msg, (err) => {
+      console.log(`Today is ${today}, Append File on ${file}`);
       if (err) throw err;
     });
   }
