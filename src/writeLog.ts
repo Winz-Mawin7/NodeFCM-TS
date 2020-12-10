@@ -23,11 +23,12 @@ function isWeekAgo(): boolean {
 }
 
 export const writeLog = (text: string) => {
-  const msg = `${getDateTimeNow()} - \t${text}\n`;
+  const msg = `${getDateTimeNow()} - ${text}\n`;
 
   if (isWeekAgo()) {
-    fs.writeFile(file, JSON.stringify(msg), (err) => {
+    fs.writeFile(file, msg, (err) => {
       if (err) throw err;
+      else console.log(`Today is ${today}, Write File on ${file}`);
     });
   } else {
     fs.appendFile(file, msg, (err) => {
