@@ -18,6 +18,9 @@ Caution !! `docker system prune -a`
 
 `docker stack rm stack-fcm-monitoring`
 
+`docker-compose up -d`
+`docker-compose logs -f --tail=1000 node-fcm`
+
 PrompQL
 
 ```
